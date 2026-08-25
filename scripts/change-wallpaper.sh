@@ -1,10 +1,10 @@
 #!/bin/bash
 
-source="$HOME/.config/hypr/conf/colors.conf"
+source="$HOME/.config/hypr/conf/colors.lua"
 mode_file="$HOME/.config/shiro-theme/wallpaper-mode"
 
-backgroundmp4=$(grep -oP '^\$backgroundmp4\s*=\s*\K.*' "$source")
-background=$(grep -oP '^\$background\s*=\s*\K.*' "$source")
+backgroundmp4=$(grep -oP 'backgroundmp4\s*=\s*"\K[^"]*' "$source")
+background=$(grep -oP '(?<!mp4)\bbackground\s*=\s*"\K[^"]*' "$source")
 
 mode="animated"
 if [ -f "$mode_file" ]; then
