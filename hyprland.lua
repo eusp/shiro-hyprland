@@ -10,7 +10,7 @@ require("conf/bindings")
 require("conf/rules")
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("/usr/libexec/lxqt-policykit-agent")
+    hl.exec_cmd("bash ~/.config/hypr/scripts/polkit-agent.sh")
     -- Pequeño delay: "hyprland.start" dispara antes de que el compositor
     -- termine de inicializarse del todo, y AGS puede morir en el arranque
     -- si intenta crear su superficie layer-shell demasiado temprano.

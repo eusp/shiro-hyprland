@@ -37,6 +37,6 @@ return {
     crust = "#02050b",
 
     -- Wallpapers
-    backgroundmp4 = "/home/emerson/.config/hypr/wallpapers/frozen-rukia.mp4",
-    background = "/home/emerson/.config/hypr/wallpapers/frozen-rukia.png",
+    backgroundmp4 = "/home/emerson/.config/shiro-hyprland/wallpapers/frozen-rukia.mp4",
+    background = "/home/emerson/.config/shiro-hyprland/wallpapers/frozen-rukia.png",
 }
