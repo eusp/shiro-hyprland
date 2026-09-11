@@ -7,7 +7,8 @@ Proyectos Shiro: [shiro-theme](https://github.com/eusp/shiro-theme) ·
 [shiro-ags](https://github.com/eusp/shiro-ags) ·
 **shiro-hyprland** ·
 [shiro-sddm](https://github.com/eusp/shiro-sddm) ·
-[shiro-grub](https://github.com/eusp/shiro-grub)
+[shiro-grub](https://github.com/eusp/shiro-grub) ·
+[shiro-limine](https://github.com/eusp/shiro-limine)
 
 ## Instalación
 
