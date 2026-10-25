@@ -30,29 +30,59 @@ hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exit())
 -- ################# SNAP WINDOWS ###################
 -- ##################################################
 
+-- Zona útil del monitor activo: sin lo que reserva la barra de AGS y con un
+-- margen igual a gaps_out. Desde Hyprland 0.56 resize/move solo aceptan
+-- píxeles (ya no "50%"), así que las mitades se calculan aquí.
+local SNAP_GAP = 10
+
+local function work_area()
+    local m = hl.get_active_monitor()
+    local r = m.reserved
+    local x = m.x + r.left + SNAP_GAP
+    local y = m.y + r.top + SNAP_GAP
+    local w = math.floor(m.width / m.scale) - r.left - r.right - 2 * SNAP_GAP
+    local h = math.floor(m.height / m.scale) - r.top - r.bottom - 2 * SNAP_GAP
+    return x, y, w, h
+end
+
+-- Deja la ventana flotante en ese rectángulo. Maximizada o en pantalla
+-- completa Hyprland no la deja mover ni cambiar de tamaño ("Window is fullscreen").
+local function place(x, y, w, h)
+    hl.dispatch(hl.dsp.window.fullscreen({ mode = "maximized", action = "unset" }))
+    hl.dispatch(hl.dsp.window.fullscreen({ mode = "fullscreen", action = "unset" }))
+    hl.dispatch(hl.dsp.window.float({ action = "enable" }))
+    hl.dispatch(hl.dsp.window.resize({ x = w, y = h }))
+    hl.dispatch(hl.dsp.window.move({ x = x, y = y }))
+end
+
+local function snap_left()
+    local x, y, w, h = work_area()
+    place(x, y, math.floor((w - SNAP_GAP) / 2), h)
+end
+
+local function snap_right()
+    local x, y, w, h = work_area()
+    local half = math.floor((w - SNAP_GAP) / 2)
+    place(x + w - half, y, half, h)
+end
+
+local function snap_center()
+    local x, y, w, h = work_area()
+    local cw, ch = math.min(900, w), math.min(600, h)
+    place(x + math.floor((w - cw) / 2), y + math.floor((h - ch) / 2), cw, ch)
+end
+
 -- Mitad izquierda (Snap Left)
-hl.bind(mainMod .. " + left", function()
-    hl.dispatch(hl.dsp.window.move({ direction = "l" }))
-    hl.dispatch(hl.dsp.window.resize({ x = "50%", y = "100%" }))
-    hl.dispatch(hl.dsp.window.move({ x = 0, y = 0 }))
-end)
+hl.bind(mainMod .. " + left", snap_left)
 
 -- Mitad derecha (Snap Right)
-hl.bind(mainMod .. " + right", function()
-    hl.dispatch(hl.dsp.window.move({ direction = "r" }))
-    hl.dispatch(hl.dsp.window.resize({ x = "50%", y = "100%" }))
-    hl.dispatch(hl.dsp.window.move({ x = "50%", y = 0 }))
-end)
+hl.bind(mainMod .. " + right", snap_right)
 
 -- Maximizar (Snap Up)
 hl.bind(mainMod .. " + up", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 
 -- Restaurar / Centrar (Snap Down)
-hl.bind(mainMod .. " + down", function()
-    hl.dispatch(hl.dsp.window.fullscreen({ mode = "fullscreen", action = "unset" }))
-    hl.dispatch(hl.dsp.window.resize({ x = 900, y = 600 }))
-    hl.dispatch(hl.dsp.window.center())
-end)
+hl.bind(mainMod .. " + down", snap_center)
 
 -- ##################################################
 -- ################# SYSTEM KEYS ####################
