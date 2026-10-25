@@ -1,0 +1,6 @@
+# Generado por shiro-theme con el tema elegido en ESTA máquina: no va en git para que cada PC/laptop tenga su tema sin bloquear el git pull.
+/conf/colors.lua
+/wallpapers/
+
+# Monitores de esta máquina (install.sh lo crea desde conf/monitors.example.lua).
+/conf/monitors.lua
