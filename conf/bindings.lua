@@ -66,10 +66,17 @@ local function snap_right()
     place(x + w - half, y, half, h)
 end
 
-local function snap_center()
-    local x, y, w, h = work_area()
-    local cw, ch = math.min(900, w), math.min(600, h)
-    place(x + math.floor((w - cw) / 2), y + math.floor((h - ch) / 2), cw, ch)
+-- Quita el maximizado o la pantalla completa; si la ventana estaba acomodada
+-- a un lado (flotante), la devuelve al mosaico
+local function restore()
+    local w = hl.get_active_window()
+    if not w then return end
+    if w.fullscreen ~= 0 then
+        hl.dispatch(hl.dsp.window.fullscreen({ mode = "maximized", action = "unset" }))
+        hl.dispatch(hl.dsp.window.fullscreen({ mode = "fullscreen", action = "unset" }))
+    elseif w.floating then
+        hl.dispatch(hl.dsp.window.float({ action = "unset" }))
+    end
 end
 
 -- Mitad izquierda (Snap Left)
@@ -81,8 +88,11 @@ hl.bind(mainMod .. " + right", snap_right)
 -- Maximizar (Snap Up)
 hl.bind(mainMod .. " + up", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
 
--- Restaurar / Centrar (Snap Down)
-hl.bind(mainMod .. " + down", snap_center)
+-- Pantalla completa
+hl.bind(mainMod .. " + CTRL + up", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
+
+-- Desmaximizar (Snap Down)
+hl.bind(mainMod .. " + down", restore)
 
 -- ##################################################
 -- ################# SYSTEM KEYS ####################
