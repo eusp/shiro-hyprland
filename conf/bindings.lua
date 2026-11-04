@@ -117,8 +117,8 @@ hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
 -- ################ SCREENSHOT ######################
 -- ##################################################
 
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | wl-copy'))
-hl.bind("Print", hl.dsp.exec_cmd("grim ~/Imágenes/screenshot_$(date +%s).png"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | tee ~/Pictures/Screenshots/recorte_$(date +%s).png | wl-copy'))
+hl.bind("Print", hl.dsp.exec_cmd("grim ~/Pictures/Screenshots/screenshot_$(date +%s).png"))
 
 -- ##################################################
 -- ################ WORKSPACES ######################
