@@ -21,3 +21,10 @@ hl.config({
         },
     },
 })
+
+-- Sin la frase aleatoria ("splash") que Hyprland dibuja sobre el fondo
+hl.config({
+    misc = {
+        disable_splash_rendering = true,
+    },
+})
