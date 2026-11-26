@@ -118,8 +118,12 @@ hl.bind(mainMod .. " + SHIFT + TAB", hl.dsp.focus({ workspace = "e-1" }))
 -- ##################################################
 
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd('grim -g "$(slurp)" - | tee ~/Pictures/Screenshots/recorte_$(date +%s).png | wl-copy'))
-hl.bind("Print", hl.dsp.exec_cmd("grim ~/Pictures/Screenshots/screenshot_$(date +%s).png"))
-hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("grim ~/Pictures/Screenshots/screenshot_$(date +%s).png"))
+-- Pantalla completa: se guarda en archivo y también queda en el portapapeles (Ctrl+V)
+hl.bind("Print", hl.dsp.exec_cmd("grim - | tee ~/Pictures/Screenshots/screenshot_$(date +%s).png | wl-copy"))
+hl.bind(mainMod .. " + SHIFT + A", hl.dsp.exec_cmd("grim - | tee ~/Pictures/Screenshots/screenshot_$(date +%s).png | wl-copy"))
+
+-- Notas al frente para anotar sin cambiar de workspace (otra vez o Esc: atrás)
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("ags request notes"))
 
 -- ##################################################
 -- ################ WORKSPACES ######################
