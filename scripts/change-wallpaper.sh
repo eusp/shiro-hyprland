@@ -17,9 +17,15 @@ pkill hyprpaper
 sleep 0.5
 
 if [ "$mode" = "static" ] || [ ! -f "$backgroundmp4" ]; then
-    hyprpaper &
+    # Reuse Hyprland's Lua setting when launching Hyprpaper.
+    splash=true
+    if grep -Eq '^[[:space:]]*disable_splash_rendering[[:space:]]*=[[:space:]]*true[[:space:]]*,' "$HOME/.config/hypr/conf/decorations.lua"; then
+        splash=false
+    fi
+    runtime_config="${XDG_RUNTIME_DIR:?}/hypr/$HYPRLAND_INSTANCE_SIGNATURE/hyprpaper-config"
+    printf 'splash = %s\n' "$splash" > "$runtime_config" || exit 1
+    hyprpaper -c "$runtime_config" &
     sleep 0.5
-    hyprctl hyprpaper preload "$background"
     hyprctl hyprpaper wallpaper ",$background"
 else
     mpvpaper -o "no-audio loop --panscan=0.65 --video-align-y=1" "*" "$backgroundmp4" &
